@@ -1,6 +1,8 @@
 import express from 'express'
 import {Bike, Employee} from '../models/schema.js'
+import multer from 'multer'
 
+const upload = new multer()
 const router = express.Router()
 
 //get request to return ALL bikes
@@ -14,9 +16,9 @@ router.get('/getbikes', async (request, response) => {
 })
 
 //get request to return a specific bike
-router.get('/findbike', async (request, response) => {
+router.get('/findbike', upload.none() ,async (request, response) => {
     try {
-        const bike = await Bike.findOne()// <= Search by bikeID? or ObjID?
+        const bike = await Bike.findOne({bikeID : request.body.Bike_ID}) //Could this input be a source of error? 
         response.json(bike)
     } catch (error) {
         response.status(500).json({ message : error.message})
