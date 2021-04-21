@@ -100,10 +100,10 @@ router.post('/addemployee', upload.none(), async (request, response) => {
 
 //get request to return all employees
 router.get('/getemployees', async (request, response) => {
-    
+    console.log("returning employee get request")
     try {
         const allEmployees = await Employee.find()
-        response.json(allEmployees)
+        response.status(200).json(allEmployees)
 
     } catch (error) {
         response.status(500).json({ message : error.message})
